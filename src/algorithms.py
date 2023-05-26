@@ -15,33 +15,44 @@ RESOLUCION_CARTEL = """
                         """
 
 DATAFRAME_VECTOR = pd.DataFrame()
-
+# Funcion principal del metodo de Jacobi,
 def jacobi(A, B, n, k):
     global DESCOMPOSICION_CARTEL
     global RESOLUCION_CARTEL
 
+    # Calcula las matrices necesarias para las operaciones
     L, D, U = calculador_LDU(A)
     H, v = calculador_Hv(L, D, U, B)
-    x = np.ones(n)
+
+    x = np.zeros(n) # Vector de x inicial
 
     dict_LDU = {' MATRIZ L:': L,' MATRIZ D:': D,' MATRIZ U:': U}
-    dict_Hv = {' MATRIZ H:': H, ' MATRIZ v:': v}
+    dict_Hv = {' MATRIZ H:': H, ' MATRIZ V:': v}
 
+    # Imprime las matrices calculadas
     imprimir_matrices_formateadas(DESCOMPOSICION_CARTEL, dict_LDU)
     imprimir_matrices_formateadas(RESOLUCION_CARTEL, dict_Hv)
+    print(f' NORMA DE H: {round(np.linalg.norm(H), 2)} \n')
 
     return iterador_jacobi(A, H, v, x, k)
 
+# Calcula el valor del vector x para cada iteración,
+# itera k veces o hasta alcanzar un valor máximo, (si este
+# se repite más de una vez, alcanzó el resultado final).
 def iterador_jacobi(A, H, v, x, k):
     global DATAFRAME_VECTOR
 
     x0 = x
     for i in range(1, k+1):
-        x1 = np.sum((H * x0) + v, axis = 1)
-        Ax1 =  np.linalg.solve(A, x0)
-        x0 = x1
+        x1 = np.sum((H * x0) + v, axis = 1) # Nueva aproximacion de x
+        Ax1 =  np.sum(A * x0, axis = 1) # Se evalua la aproximacion en la matriz
+        
         DATAFRAME_VECTOR = actualizar_dataframe(DATAFRAME_VECTOR, i, x1, Ax1)
         
+        if(np.array_equal(x0,x1)):
+            break;
+        x0 = x1
+
     return DATAFRAME_VECTOR, x1, Ax1
 
 # Calcula las siguientes matrices (en el mismo orden):
@@ -77,8 +88,8 @@ def imprimir_matriz(matrix):
 def actualizar_dataframe(df, i, x, Ax):
     dic = pd.DataFrame({
         'Iteración': i,
-        'Aproximación de x': str(np.round(x, decimals = 4)),
-        'Evaluación de x en A': str(np.round(Ax, decimals = 4))
+        'Aproximación de x': str(np.round(x, decimals = 6)),
+        'Evaluación de x en A': str(np.round(Ax, decimals = 6))
     } , index = range(1))
    
     return pd.concat([df, dic], axis = 0, ignore_index = True)
