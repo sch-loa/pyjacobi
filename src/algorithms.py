@@ -1,15 +1,17 @@
 import numpy as np
 
-def jacobi(A, B, n, k):
-    L = np.tril(A, k = -1) # Se transforma en estrictamente triangular inferior
-    D = np.diag(np.diag(A)) # Se transforma en diagonal
-    U = np.triu(A, k = 1) # Se transforma en estrictamente triangular superior
-    print_matrix(L)
-    print()
-    print_matrix(U)
+def jacobi(A, B, k):
+    L, D, U = L_D_U_calculator(A)
+    H, v = H_v_calculator(L, D, U, B)
 
-def jacobi_it(L, D, U, k):
-    H = 0
+
+
+def L_D_U_calculator(A):
+    return (np.tril(A, k = -1), np.diag(np.diag(A)), np.triu(A, k = 1))
+
+def H_v_calculator(L, D, U, B):
+    minus_D_inverse = -np.linalg.inv(D)
+    return (minus_D_inverse + (L + U), minus_D_inverse * B)
 
 def print_matrix(matrix):
     for row in matrix:
