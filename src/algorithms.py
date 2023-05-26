@@ -32,14 +32,17 @@ def jacobi(A, B, n, k):
 
     return iterador_jacobi(A, H, v, x, k)
 
-def iterador_jacobi(A, H, v, x0, k):
+def iterador_jacobi(A, H, v, x, k):
     global DATAFRAME_VECTOR
+
+    x0 = x
     for i in range(1, k+1):
         x1 = np.sum((H * x0) + v, axis = 1)
-        DATAFRAME_VECTOR = actualizar_dataframe(DATAFRAME_VECTOR, i, x0, x1, np.sum(A, axis = 1))
+        Ax1 =  np.linalg.solve(A, x0)
         x0 = x1
+        DATAFRAME_VECTOR = actualizar_dataframe(DATAFRAME_VECTOR, i, x1, Ax1)
         
-    return DATAFRAME_VECTOR
+    return DATAFRAME_VECTOR, x1, Ax1
 
 # Calcula las siguientes matrices (en el mismo orden):
 # L (estrictamente triangular inferior)
@@ -51,8 +54,9 @@ def calculador_LDU(A):
 # Calcula las matrices H y v producto de operaciones entre las matrices L, D, U, B
 def calculador_Hv(L, D, U, B):
     D_inverse = np.linalg.inv(D)
-    H = -1 * D_inverse * (L + U)
+    H = -np.dot(D_inverse, (L + U))
     v = D_inverse * B
+
     return (H, v)
 
 # Imprime un título y matrices con sus respectivos subtitulos
@@ -65,7 +69,7 @@ def imprimir_matrices_formateadas(titulo, dict_formateado):
 # Imprime matriz columna por columna
 def imprimir_matriz(matrix):
     for row in matrix:
-        print('  ' + str(row))
+        print('  ' + str(np.round(row, decimals = 2)))
     print()
 
 # Actualiza los valores del DataFrame con los resultados de la ecuación matricial
@@ -73,9 +77,11 @@ def imprimir_matriz(matrix):
 def actualizar_dataframe(df, i, x, Ax):
     dic = pd.DataFrame({
         'Iteración': i,
-        'Matriz aproximada': str(x),
-        'Evaluación aproximada': str(Ax)
+        'Aproximación de x': str(np.round(x, decimals = 4)),
+        'Evaluación de x en A': str(np.round(Ax, decimals = 4))
     } , index = range(1))
    
     return pd.concat([df, dic], axis = 0, ignore_index = True)
+
+
 
