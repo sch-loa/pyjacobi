@@ -79,7 +79,7 @@ print()
 
 # Extraigo DataFrame con datos de las iteraciones, vector
 # aproximado de x y evaluación del vector en A
-datos_vector, x, Ax = jacobi(A_matrix, B_vector, B_vector.shape[0], k_iters)
+datos_vector, x, Ax = jacobi(A_matrix, B_vector, k_iters)
 print(datos_vector.to_string(index = False))
 
 # Imprimo resultados finales

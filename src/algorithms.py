@@ -17,7 +17,7 @@ RESOLUCION_CARTEL = """
 
 DATAFRAME_VECTOR = pd.DataFrame()
 # Funcion principal del metodo de Jacobi,
-def jacobi(A, B, n, k):
+def jacobi(A, B, k):
     global DESCOMPOSICION_CARTEL
     global RESOLUCION_CARTEL
 
@@ -25,7 +25,7 @@ def jacobi(A, B, n, k):
     L, D, U = calculador_LDU(A)
     H, v = calculador_Hv(L, D, U, B)
 
-    x = np.zeros(n) # Vector de x inicial
+    x = np.zeros(B.shape[0]) # Vector de x inicial
 
     dict_LDU = {' MATRIZ L:': L,' MATRIZ D:': D,' MATRIZ U:': U}
     dict_Hv = {' MATRIZ H:': H, ' MATRIZ V:': v}
