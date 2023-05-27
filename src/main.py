@@ -3,7 +3,7 @@ import pandas as pd
 from matplotlib import pyplot as plt
 
 from exceptions import is_column_size_different, is_square, is_zero_or_natural
-from algorithms import jacobi, imprimir_matriz, a_array
+from algorithms import jacobi, imprimir_matriz, a_lista
 
 METODO_CARTEL = """
  ________________________________________________________________
@@ -40,17 +40,16 @@ METODO_CARTEL = """
 |  La operación se realiza k veces, o hasta haberse alcanzado    |
 |  una aproximación final. En este caso, si se cumple que el     |
 |  resultado de una aproximación es exactamente igual a la       |
-|  anterior, indica que se ha alcanzado una aproximación total,  |
-|  o como mínimo la solución se ha estabilizado y no se          |
-|  producen cambios significativos en las siguientes             |
-|  iteraciones. Por lo tanto se toma como solución final.        |
-|  Dado que los datos son representados hasta 6 decimales,       |
-|  se toma esta cifra para las comparaciones de los resultados,  |
-|  ya que seguir mostrando el resultado de las iteraciones no    |  
-|  aporta más información. Aun así y debido a esta falta,        |
-|  se informa el número de iteraciones necesarias para alcanzar  |
-|  un resultado exacto (sin tener en cuenta los límites de       |
-|  representación del lenguaje).                                 |
+|  anterior, indica que como mínimo la solución se ha            | 
+|  estabilizado y no se producen cambios significativos en las   |
+|  siguientes iteraciones. Por lo tanto se toma como solución    |
+|  final. Dado que se eligió representar los datos hasta 6       |
+|  decimales, se toma esta cifra para las comparaciones de los   |
+|  valores hallados, ya que seguir mostrando el resultado de     |
+|  las iteraciones no aporta información real. Algo a tener en   |
+|  cuenta es que si se pide un número k de iteraciones y la      |
+|  aproximación final es alcanzada con n < k, el programa itera  |
+|  hasta esa cifra.                                              |
 |________________________________________________________________|
                 """
 
@@ -88,22 +87,30 @@ x_exactos = np.linalg.solve(A_matrix, B_vector)
 print(f"Solución mediante un método exacto: {np.round(x_exactos, decimals = 4)}")
 print(f" |_Evaluación en A: {np.round(np.sum(A_matrix * x_exactos, axis = 1), decimals = 4)}")
 
-# Grafico convergencia del metodo
-x_vals = a_array(str(datos_vector['Aproximación de x'].values))
-y_vals = a_array(str(datos_vector['Evaluación de x en A'].values))
-fig, ax = plt.subplots()
+x_vals = a_lista(datos_vector['Aproximación de x'].values)
+y_vals = a_lista(datos_vector['Evaluación de x en A'].values)
 
 # Se saca el promedio de los puntos finales hallados
 # para ajustar mejorla vista del gráfico
 x_mean = np.mean(x)
 y_mean = np.mean(Ax)
 
-plt.xlim(x_mean-10, x_mean+10)
-plt.ylim(y_mean-10, y_mean+10)
+# Grafico convergencia del metodo
+TITULOS = ['X0', 'X1', 'X2']
+COLORES = ['r', 'c', 'y']
+for i in range(B_vector.shape[0]):
+    x_subvals = [j[i] for j in x_vals]
+    y_subvals = [j[i] for j in y_vals]
 
-ax.scatter(x_vals, y_vals, color='r')
+    fig, ax = plt.subplots()
 
-#plt.grid(True, linestyle='--', linewidth=0.5, color='gray') 
-plt.title('Convergencia del Método')
+    plt.xlim(x_mean-8, x_mean+8)
+    plt.ylim(y_mean-8, y_mean+8)
 
-plt.show()
+    ax.scatter(x_subvals, y_subvals, color = COLORES[i])
+    ax.scatter([x[i]], [Ax[i]], color = 'k')
+
+    plt.grid(True, linestyle='--', linewidth=0.5, color='gray') 
+    plt.title(f'Convergencia del Método en {TITULOS[i]}')
+
+    plt.show()

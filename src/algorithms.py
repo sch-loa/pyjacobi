@@ -48,11 +48,9 @@ def iterador_jacobi(A, H, v, x, k):
         x1 = np.sum((H * x0) + v, axis = 1) # Nueva aproximacion de x
         Ax1 =  np.sum(A * x0, axis = 1) # Se evalua la aproximacion en la matriz
         
-        if(np.array_equal(np.round(x0, decimals = 6),np.round(x1, decimals = 6))):
-            break;
+        if(not(np.array_equal(np.round(x0, decimals = 6),np.round(x1, decimals = 6)))):
+            DATAFRAME_VECTOR = actualizar_dataframe(DATAFRAME_VECTOR, i, x1, Ax1)
 
-        DATAFRAME_VECTOR = actualizar_dataframe(DATAFRAME_VECTOR, i, x1, Ax1)
-        
         x0 = x1
 
     return DATAFRAME_VECTOR, x1, Ax1
@@ -96,8 +94,12 @@ def actualizar_dataframe(df, i, x, Ax):
    
     return pd.concat([df, dic], axis = 0, ignore_index = True)
 
-#Convierte la una colección de números en un array
+#Convierte la una colección de números en una lista
 # usando expresiones regulares
-def a_array(array_strings):
-    occurs = re.findall(r"\d+(?:\.\d+)?", array_strings)
-    return np.array([float(ocurr) for ocurr in occurs])
+def a_lista(array_strings):
+    occurs = list()
+    for fila in array_strings: 
+        occur = re.findall(r"\d+(?:\.\d+)?", fila)
+        occur = np.array([float(oc) for oc in occur])
+        occurs.append(occur)
+    return occurs
