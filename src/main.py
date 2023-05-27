@@ -1,8 +1,9 @@
 import numpy as np
 import pandas as pd
+from matplotlib import pyplot as plt
 
 from exceptions import is_column_size_different, is_square, is_zero_or_natural
-from algorithms import jacobi, imprimir_matriz
+from algorithms import jacobi, imprimir_matriz, a_array
 
 METODO_CARTEL = """
  ________________________________________________________________
@@ -41,14 +42,20 @@ METODO_CARTEL = """
 |  resultado de una aproximación es exactamente igual a la       |
 |  anterior, indica que se ha alcanzado una aproximación total,  |
 |  o como mínimo la solución se ha estabilizado y no se          |
-|  producen cambios significativos (teniendo en cuenta los       |
-|  límites de representación del lenguaje) en las siguientes     |
+|  producen cambios significativos en las siguientes             |
 |  iteraciones. Por lo tanto se toma como solución final.        |
+|  Dado que los datos son representados hasta 6 decimales,       |
+|  se toma esta cifra para las comparaciones de los resultados,  |
+|  ya que seguir mostrando el resultado de las iteraciones no    |  
+|  aporta más información. Aun así y debido a esta falta,        |
+|  se informa el número de iteraciones necesarias para alcanzar  |
+|  un resultado exacto (sin tener en cuenta los límites de       |
+|  representación del lenguaje).                                 |
 |________________________________________________________________|
                 """
 
-A_matrix = np.array([[2,1],[5,7]])
-B_vector = np.array([11,13])
+A_matrix = np.array([[3,-1,-1],[-1,3,1],[2,1,4]])
+B_vector = np.array([1,3,7])
 
 is_square(A_matrix) # Verifico que la matriz sea cuadrada
 # Verifico que los vectores sean de tamaños equivalentes
@@ -82,3 +89,21 @@ print(f"Solución mediante un método exacto: {np.round(x_exactos, decimals = 4)
 print(f" |_Evaluación en A: {np.round(np.sum(A_matrix * x_exactos, axis = 1), decimals = 4)}")
 
 # Grafico convergencia del metodo
+x_vals = a_array(str(datos_vector['Aproximación de x'].values))
+y_vals = a_array(str(datos_vector['Evaluación de x en A'].values))
+fig, ax = plt.subplots()
+
+# Se saca el promedio de los puntos finales hallados
+# para ajustar mejorla vista del gráfico
+x_mean = np.mean(x)
+y_mean = np.mean(Ax)
+
+plt.xlim(x_mean-10, x_mean+10)
+plt.ylim(y_mean-10, y_mean+10)
+
+ax.scatter(x_vals, y_vals, color='r')
+
+#plt.grid(True, linestyle='--', linewidth=0.5, color='gray') 
+plt.title('Convergencia del Método')
+
+plt.show()
