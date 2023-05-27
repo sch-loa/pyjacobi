@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plt
 
-from exceptions import is_column_size_different, is_square, is_zero_or_natural
+from exceptions import is_column_size_different, is_square, is_zero_or_natural, is_jacobi_operable
 from algorithms import jacobi, imprimir_matriz, a_lista
 
 METODO_CARTEL = """
@@ -15,8 +15,11 @@ METODO_CARTEL = """
 |  |_ Loana Abril Schleich Garcia.                               |
 |                                                                |
 |  SISTEMA DE ECUACIONES A EVALUAR:                              |
-|  |_ Ax = B                                                     |
-|                                                                |
+|  |_ Ax = B, siendo:      ____________        ___        ____   |
+|                     A = |  3  -1  -1 |  B = | 1 |  x = | x0 |  |
+|                         | -1   3   1 |      | 3 |      | x1 |  |
+|                         |  2   1   4 |      | 7 |      | x2 |  |
+|                         |____________|      |___|      |____|  |
 |________________________________________________________________|
 |                                                                |
 |                  FUNCIONAMIENTO DEL ALGORITMO                  |
@@ -54,6 +57,7 @@ METODO_CARTEL = """
                 """
 
 A_matrix = np.array([[3,-1,-1],[-1,3,1],[2,1,4]])
+is_jacobi_operable(A_matrix) # Verifico que la matriz sea estrictamente dominante
 B_vector = np.array([1,3,7])
 
 is_square(A_matrix) # Verifico que la matriz sea cuadrada
@@ -79,10 +83,10 @@ datos_vector, x, Ax = jacobi(A_matrix, B_vector, B_vector.shape[0], k_iters)
 print(datos_vector.to_string(index = False))
 
 # Imprimo resultados finales
-## Resultados aproximados
+## RESULTADOS APROXIMADOS
 print(f"\nSolución final aproximada: {np.round(x, decimals = 4)}")
 print(f" |_Evaluación en A: {np.round(Ax, decimals = 4)}\n")
-## Resultados finales
+## RESULTADOS FINALES
 x_exactos = np.linalg.solve(A_matrix, B_vector)
 print(f"Solución mediante un método exacto: {np.round(x_exactos, decimals = 4)}")
 print(f" |_Evaluación en A: {np.round(np.sum(A_matrix * x_exactos, axis = 1), decimals = 4)}")
@@ -90,25 +94,26 @@ print(f" |_Evaluación en A: {np.round(np.sum(A_matrix * x_exactos, axis = 1), d
 x_vals = a_lista(datos_vector['Aproximación de x'].values)
 y_vals = a_lista(datos_vector['Evaluación de x en A'].values)
 
-# Se saca el promedio de los puntos finales hallados
-# para ajustar mejorla vista del gráfico
-x_mean = np.mean(x)
-y_mean = np.mean(Ax)
-
-# Grafico convergencia del metodo
+# GRÁFICOS DE CONVERGGENCIA DEL METODO
 TITULOS = ['X0', 'X1', 'X2']
 COLORES = ['r', 'c', 'y']
 for i in range(B_vector.shape[0]):
+    # Valores aproximados de x e y
     x_subvals = [j[i] for j in x_vals]
     y_subvals = [j[i] for j in y_vals]
 
+    # Valores reales x e y
+    x_sub = x[i]
+    y_sub = Ax[i]
+
     fig, ax = plt.subplots()
 
-    plt.xlim(x_mean-8, x_mean+8)
-    plt.ylim(y_mean-8, y_mean+8)
+    # Ajusto la perspectiva del gráfico para hacer foco en el valor real
+    plt.xlim(x_sub-5, x_sub+5)
+    plt.ylim(y_sub-5, y_sub+5)
 
     ax.scatter(x_subvals, y_subvals, color = COLORES[i])
-    ax.scatter([x[i]], [Ax[i]], color = 'k')
+    ax.scatter([x_sub], [y_sub], color = 'k')
 
     plt.grid(True, linestyle='--', linewidth=0.5, color='gray') 
     plt.title(f'Convergencia del Método en {TITULOS[i]}')
