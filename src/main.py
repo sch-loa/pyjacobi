@@ -68,7 +68,7 @@ print(METODO_CARTEL)
 print(' MATRIZ A:')
 imprimir_matriz(A_matrix)
 
-print(' MATRIZ B:')
+print(' VECTOR B:')
 print('  ' + str(B_vector))
 print()
 
