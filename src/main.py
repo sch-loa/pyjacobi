@@ -25,7 +25,8 @@ METODO_CARTEL = """
 |                        FUNCIONAMIENTO DEL ALGORITMO                        |
 |____________________________________________________________________________|
 |                                                                            |
-|  Para aproximar el valor de x se divide la matriz A en tres partes:        |
+|  Para aproximar el valor de x se transforma la matriz A en la suma de      | 
+|  tres partes:                                                              |
 |                                                                            |
 |  L -> Estrictamente triangular inferior                                    |
 |  D -> Diagonal                                                             |
@@ -33,20 +34,21 @@ METODO_CARTEL = """
 |                                                                            |
 |  Producto de las cuales por medio de otras operaciones se obtienen dos     |
 |  matrices H y v, tal que:                                                  |
+|                                                                            |
+|  -> H = -D^-1 * (L + U)                                                    |
+|  -> v = D^-1 * B                                                           |
 |                           x_(k+1) = (H * x_k) + v                          |
 |                                                                            |
 |  Siendo k el número de iteraciones a realizar del método, y x_k una        |
-|  primera aproximación arbitraria de la incognita matricial. La operación   |
-|  se realiza k veces, o hasta haberse alcanzado una aproximación final. En  |
-|  este caso, si se cumple que el resultado de una aproximación es           |
-|  exactamente igual a la anterior, indica que como mínimo la solución se    | 
-|  ha estabilizado y no se producen cambios significativos en las            |
-|  siguientes iteraciones. Por lo tanto se toma como solución final. Dado    |
-|  que se eligió representar los datos hasta 6 decimales, se toma esta       |
-|  cifra para las comparaciones de los valores hallados, ya que seguir       |
-|  mostrando el resultado de las iteraciones no aporta información real.     |
-|  Algo a tener en cuenta es que si la aproximación final es alcanzada con   |
-|  un número n < k, el programa itera sólo hasta esa cifra.                  |
+|  primera aproximación arbitraria de la incógnita matricial. La operación   |
+|  se realiza k veces, o hasta haberse alcanzado una aproximación final.     |
+|  Si se cumple que el resultado de una aproximación es exactamente igual a  |
+|  la anterior, indica que como mínimo la solución se ha estabilizado y no   |
+|  se producen cambios significativos en las siguientes iteraciones. Por lo  |
+|  tanto se toma como solución final. Dado que se eligió representar los     |
+|  datos hasta 6 decimales, se toma esta cifra para las comparaciones entre  |
+|  los valores hallados, ya que seguir mostrando el resultado de las         |
+|  iteraciones no aporta información real.                                   |
 |____________________________________________________________________________|
                 """
 
