@@ -6,54 +6,48 @@ from exceptions import is_column_size_different, is_square, is_zero_or_natural, 
 from algorithms import jacobi, imprimir_matriz, a_lista
 
 METODO_CARTEL = """
- ________________________________________________________________
-|                                                                |
-|                        METODO DE JACOBI                        |
-|________________________________________________________________|
-|                                                                |
-|  INTEGRANTES:                                                  |
-|  |_ Loana Abril Schleich Garcia.                               |
-|                                                                |
-|  SISTEMA DE ECUACIONES A EVALUAR:                              |
-|  |_ Ax = B, siendo:      ____________        ___        ____   |
-|                     A = |  3  -1  -1 |  B = | 1 |  x = | x0 |  |
-|                         | -1   3   1 |      | 3 |      | x1 |  |
-|                         |  2   1   4 |      | 7 |      | x2 |  |
-|                         |____________|      |___|      |____|  |
-|________________________________________________________________|
-|                                                                |
-|                  FUNCIONAMIENTO DEL ALGORITMO                  |
-|________________________________________________________________|
-|                                                                |
-|  Para aproximar el valor del vector x se descompone            |
-|  la matriz A en tres partes:                                   |
-|                                                                |
-|  L -> Estrictamente triangular inferior                        |
-|  D -> Diagonal                                                 |
-|  U -> Estrictamente triangular superior                        |
-|                                                                |
-|  Producto de las cuales por medio de otras operaciones se      |
-|  obtienen dos matrices H y v, tal que:                         |
-|                                                                |
-|  x_(k+1) = (H * x_k) + v                                       |
-|                                                                |
-|  Siendo k el número de iteraciones a realizar del método,      |
-|  y x_k una primera aproximación arbitraria de la incognita     |
-|  matricial.                                                    |
-|  La operación se realiza k veces, o hasta haberse alcanzado    |
-|  una aproximación final. En este caso, si se cumple que el     |
-|  resultado de una aproximación es exactamente igual a la       |
-|  anterior, indica que como mínimo la solución se ha            | 
-|  estabilizado y no se producen cambios significativos en las   |
-|  siguientes iteraciones. Por lo tanto se toma como solución    |
-|  final. Dado que se eligió representar los datos hasta 6       |
-|  decimales, se toma esta cifra para las comparaciones de los   |
-|  valores hallados, ya que seguir mostrando el resultado de     |
-|  las iteraciones no aporta información real. Algo a tener en   |
-|  cuenta es que si se pide un número k de iteraciones y la      |
-|  aproximación final es alcanzada con n < k, el programa itera  |
-|  hasta esa cifra.                                              |
-|________________________________________________________________|
+ ____________________________________________________________________________
+|                                                                            |
+|                              METODO DE JACOBI                              |
+|____________________________________________________________________________|
+|                                                                            |
+|  INTEGRANTES:                                                              |
+|  |_ Loana Abril Schleich Garcia.                                           |
+|                                                                            |
+|  SISTEMA DE ECUACIONES A EVALUAR:                                          |
+|  |_ Ax = B, siendo:                      ____________        ___           |
+|                                     A = |  3  -1  -1 |  B = | 1 |          |
+|                                         | -1   3   1 |      | 3 |          |
+|                                         |  2   1   4 |      | 7 |          |
+|                                         |____________|      |___|          |
+|____________________________________________________________________________|
+|                                                                            |
+|                        FUNCIONAMIENTO DEL ALGORITMO                        |
+|____________________________________________________________________________|
+|                                                                            |
+|  Para aproximar el valor de x se divide la matriz A en tres partes:        |
+|                                                                            |
+|  L -> Estrictamente triangular inferior                                    |
+|  D -> Diagonal                                                             |
+|  U -> Estrictamente triangular superior                                    |
+|                                                                            |
+|  Producto de las cuales por medio de otras operaciones se obtienen dos     |
+|  matrices H y v, tal que:                                                  |
+|                           x_(k+1) = (H * x_k) + v                          |
+|                                                                            |
+|  Siendo k el número de iteraciones a realizar del método, y x_k una        |
+|  primera aproximación arbitraria de la incognita matricial. La operación   |
+|  se realiza k veces, o hasta haberse alcanzado una aproximación final. En  |
+|  este caso, si se cumple que el resultado de una aproximación es           |
+|  exactamente igual a la anterior, indica que como mínimo la solución se    | 
+|  ha estabilizado y no se producen cambios significativos en las            |
+|  siguientes iteraciones. Por lo tanto se toma como solución final. Dado    |
+|  que se eligió representar los datos hasta 6 decimales, se toma esta       |
+|  cifra para las comparaciones de los valores hallados, ya que seguir       |
+|  mostrando el resultado de las iteraciones no aporta información real.     |
+|  Algo a tener en cuenta es que si la aproximación final es alcanzada con   |
+|  un número n < k, el programa itera sólo hasta esa cifra.                  |
+|____________________________________________________________________________|
                 """
 
 A_matrix = np.array([[3,-1,-1],[-1,3,1],[2,1,4]])
@@ -69,7 +63,7 @@ print(' MATRIZ A:')
 imprimir_matriz(A_matrix)
 
 print(' VECTOR B:')
-print('  ' + str(B_vector))
+print(f'  {B_vector}')
 print()
 
 print(' NUMERO DE ITERACIONES:')
@@ -84,12 +78,13 @@ print(datos_vector.to_string(index = False))
 
 # Imprimo resultados finales
 ## RESULTADOS APROXIMADOS
-print(f"\nSolución final aproximada: {np.round(x, decimals = 4)}")
-print(f" |_Evaluación en A: {np.round(Ax, decimals = 4)}\n")
+print(f"\n\n SOLUCION FINAL APROXIMADA: {np.round(x, decimals = 4)}")
+print(f"  |_Evaluación en A: {np.round(Ax, decimals = 4)}\n")
 ## RESULTADOS FINALES
 x_exactos = np.linalg.solve(A_matrix, B_vector)
-print(f"Solución mediante un método exacto: {np.round(x_exactos, decimals = 4)}")
-print(f" |_Evaluación en A: {np.round(np.sum(A_matrix * x_exactos, axis = 1), decimals = 4)}")
+y_exactos = np.sum(A_matrix * x_exactos, axis = 1)
+print(f" SOLUCION MEDIANTE UN METODO EXACTO: {np.round(x_exactos, decimals = 4)}")
+print(f"  |_Evaluación en A: {np.round(y_exactos, decimals = 4)}\n")
 
 x_vals = a_lista(datos_vector['Aproximación de x'].values)
 y_vals = a_lista(datos_vector['Evaluación de x en A'].values)
@@ -103,19 +98,19 @@ for i in range(B_vector.shape[0]):
     y_subvals = [j[i] for j in y_vals]
 
     # Valores reales x e y
-    x_sub = x[i]
-    y_sub = Ax[i]
+    x_sub = x_exactos[i]
+    y_sub = y_exactos[i]
 
     fig, ax = plt.subplots()
 
     # Ajusto la perspectiva del gráfico para hacer foco en el valor real
-    plt.xlim(x_sub-5, x_sub+5)
-    plt.ylim(y_sub-5, y_sub+5)
+    plt.xlim(x_sub-4, x_sub+4)
+    plt.ylim(y_sub-4, y_sub+4)
 
     ax.scatter(x_subvals, y_subvals, color = COLORES[i])
     ax.scatter([x_sub], [y_sub], color = 'k')
 
-    plt.grid(True, linestyle='--', linewidth=0.5, color='gray') 
+    plt.grid(True, linestyle='--', linewidth=0.3, color='gray') 
     plt.title(f'Convergencia del Método en {TITULOS[i]}')
 
     plt.show()

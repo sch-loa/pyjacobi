@@ -2,13 +2,13 @@ import numpy as np
 import pandas as pd
 import re
 
-DESCOMPOSICION_CARTEL = """
+DESCOMPOSICION_CARTEL = """\033[F
  __________________________
 |                          |  
 | DESCOMPOSICION DE JACOBI |
 |__________________________|
                         """
-RESOLUCION_CARTEL = """
+RESOLUCION_CARTEL = """\033[F
  _________________________________
 |                                 |  
 | RESOLUCION DE LA DESCOMPOSICION |
@@ -80,7 +80,7 @@ def imprimir_matrices_formateadas(titulo, dict_formateado):
 # Imprime matriz columna por columna
 def imprimir_matriz(matrix):
     for row in matrix:
-        print('  ' + str(np.round(row, decimals = 2)))
+        print(f'  {np.round(row, decimals = 2)}')
     print()
 
 # Actualiza los valores del DataFrame con los resultados de la ecuación matricial
