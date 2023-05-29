@@ -12,9 +12,9 @@ class NonSquareMatrix(Exception):
     def __init__(self):
         super().__init__("La matriz debe ser cuadrada")
 
-class NegativeNumber(Exception):
+class NonNaturalNumber(Exception):
     def __init__(self):
-        super().__init__(f"El campo numérico debe ser positivo")
+        super().__init__(f"El campo numérico debe ser un natural positivo")
 
 # Verifica que dos matrices/vectores tengan el mismo
 # número de columnas para poder hacer operaciones entre las mismas.
@@ -29,8 +29,8 @@ def is_square(A):
 
 # Verifica que un número sea cero o natural
 def is_zero_or_natural(value):
-    if(value < 0):
-        raise NegativeNumber()
+    if(value <= 0):
+        raise NonNaturalNumber()
 
 # Verifica que el metodo de jacobi sea aplicable en la matriz A,
 # para esto verifica que la diagonal de la matriz sea estrictamente
