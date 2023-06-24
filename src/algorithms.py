@@ -17,7 +17,7 @@ RESOLUCION_CARTEL = """\033[F
 
 DATAFRAME_VECTOR = pd.DataFrame()
 # Funcion principal del metodo de Jacobi,
-def jacobi(A, B, k):
+def jacobi(A, B, k, t):
     global DESCOMPOSICION_CARTEL
     global RESOLUCION_CARTEL
 
@@ -35,15 +35,16 @@ def jacobi(A, B, k):
     imprimir_matrices_formateadas(RESOLUCION_CARTEL, dict_Hv)
     print(f' NORMA DE H: {round(np.linalg.norm(H), 2)} \n')
 
-    return iterador_jacobi(A, H, v, x, k)
+    return iterador_jacobi(A, H, v, x, k, t)
 
 # Calcula el valor del vector x para cada iteración,
 # itera k veces o hasta alcanzar un valor máximo, (si este
 # se repite más de una vez, alcanzó el resultado final).
-def iterador_jacobi(A, H, v, x, k):
+def iterador_jacobi(A, H, v, x, k, t):
     global DATAFRAME_VECTOR
 
     x0 = x
+    
     for i in range(1, k+1):
         x1 = np.sum((H * x0) + v, axis = 1) # Nueva aproximacion de x
         Ax1 =  np.sum(A * x0, axis = 1) # Se evalua la aproximacion en la matriz

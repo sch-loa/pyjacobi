@@ -68,11 +68,13 @@ print()
 print(' NUMERO DE ITERACIONES:')
 k_iters = int(input(' |_k: '))
 is_zero_or_natural(k_iters)
+tolerance = float(input(' |_t: '))
+is_zero_or_natural(tolerance)
 print()
 
 # Extraigo DataFrame con datos de las iteraciones, vector
 # aproximado de x y evaluación del vector en A
-datos_vector, x, Ax = jacobi(A_matrix, B_vector, k_iters)
+datos_vector, x, Ax = jacobi(A_matrix, B_vector, k_iters, tolerance)
 print(datos_vector.to_string(index = False))
 
 # Imprimo resultados finales
