@@ -15,11 +15,7 @@ METODO_CARTEL = """
 |  |_ Loana Abril Schleich Garcia.                                           |
 |                                                                            |
 |  SISTEMA DE ECUACIONES A EVALUAR:                                          |
-|  |_ Ax = B, siendo:                      ____________        ___           |
-|                                     A = |  3  -1  -1 |  B = | 1 |          |
-|                                         | -1   3   1 |      | 3 |          |
-|                                         |  2   1   4 |      | 7 |          |
-|                                         |____________|      |___|          |
+|  |_ Ax = B, siendo:                                                        |
 |____________________________________________________________________________|
 |                                                                            |
 |                        FUNCIONAMIENTO DEL ALGORITMO                        |
