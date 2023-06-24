@@ -92,7 +92,6 @@ x_vals = a_lista(datos_vector['Aproximación de x'].values)
 y_vals = a_lista(datos_vector['Evaluación de x en A'].values)
 
 # GRÁFICOS DE CONVERGGENCIA DEL METODO
-TITULOS = ['X0', 'X1', 'X2']
 COLORES = ['r', 'c', 'y']
 for i in range(B_vector.shape[0]):
     # Valores aproximados de x e y
@@ -113,6 +112,6 @@ for i in range(B_vector.shape[0]):
     ax.scatter([x_sub], [y_sub], color = 'k')
 
     plt.grid(True, linestyle='--', linewidth=0.3, color='gray') 
-    plt.title(f'Convergencia del Método en {TITULOS[i]}')
+    plt.title(f'Convergencia del Método en X{i}')
 
     plt.show()
