@@ -50,6 +50,7 @@ METODO_CARTEL = """
 
 A_matrix = np.array([[3,-1,-1],[-1,3,1],[2,1,4]])
 is_jacobi_operable(A_matrix) # Verifico que la matriz sea estrictamente dominante
+print('La matriz es estrictamente dominante, es posible operar con el algoritmo de Jacobi.')
 B_vector = np.array([1,3,7])
 
 is_square(A_matrix) # Verifico que la matriz sea cuadrada
@@ -87,7 +88,7 @@ print(f"  |_Evaluación en A: {np.round(y_exactos, decimals = 4)}\n")
 x_vals = a_lista(datos_vector['Aproximación de x'].values)
 y_vals = a_lista(datos_vector['Evaluación de x en A'].values)
 
-# GRÁFICOS DE CONVERGGENCIA DEL METODO
+# GRÁFICOS DE CONVERGENCIA DEL METODO
 COLORES = ['r', 'c', 'y']
 for i in range(B_vector.shape[0]):
     # Valores aproximados de x e y
@@ -108,6 +109,6 @@ for i in range(B_vector.shape[0]):
     ax.scatter([x_sub], [y_sub], color = 'k')
 
     plt.grid(True, linestyle='--', linewidth=0.3, color='gray') 
-    plt.title(f'Convergencia del Método en X{i}')
+    plt.title(f'Acercamiento a X{i} en cada Iteración')
 
     plt.show()
