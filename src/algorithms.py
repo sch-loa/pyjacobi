@@ -44,15 +44,17 @@ def iterador_jacobi(A, H, v, x, k, t):
     global DATAFRAME_VECTOR
 
     x0 = x
-    
-    for i in range(1, k+1):
+    norm_diff = t + 1
+
+    i = 1
+    while( (i <= k) and (norm_diff >= t) ):
         x1 = np.sum((H * x0) + v, axis = 1) # Nueva aproximacion de x
         Ax1 =  np.sum(A * x0, axis = 1) # Se evalua la aproximacion en la matriz
-        
+        norm_diff = np.linalg.norm(x1 - x0)
         if(not(np.array_equal(np.round(x0, decimals = 6),np.round(x1, decimals = 6)))):
-            DATAFRAME_VECTOR = actualizar_dataframe(DATAFRAME_VECTOR, i, x1, Ax1)
-
+            DATAFRAME_VECTOR = actualizar_dataframe(DATAFRAME_VECTOR, i, x1, Ax1, norm_diff)
         x0 = x1
+        i += 1
 
     return DATAFRAME_VECTOR, x1, Ax1
 
@@ -86,11 +88,12 @@ def imprimir_matriz(matrix):
 
 # Actualiza los valores del DataFrame con los resultados de la ecuación matricial
 # y su evaluación en la matriz inicial.
-def actualizar_dataframe(df, i, x, Ax):
+def actualizar_dataframe(df, i, x, Ax, t):
     dic = pd.DataFrame({
         'Iteración': i,
         'Aproximación de x': str(np.round(x, decimals = 6)),
-        'Evaluación de x en A': str(np.round(Ax, decimals = 6))
+        'Evaluación de x en A': str(np.round(Ax, decimals = 6)),
+        'Tolerancia': round(t, 6)
     } , index = range(1))
    
     return pd.concat([df, dic], axis = 0, ignore_index = True)
