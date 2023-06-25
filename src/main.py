@@ -3,7 +3,7 @@ import pandas as pd
 from matplotlib import pyplot as plt
 
 from exceptions import is_column_size_different, is_square, is_zero_or_natural, is_jacobi_operable
-from algorithms import jacobi, imprimir_matriz, a_lista
+from algorithms import jacobi, imprimir_matriz, a_lista, leer_matriz, leer_vector
 
 METODO_CARTEL = """
  ____________________________________________________________________________
@@ -48,10 +48,16 @@ METODO_CARTEL = """
 |____________________________________________________________________________|
                 """
 
-A_matrix = np.array([[3,-1,-1],[-1,3,1],[2,1,4]])
+n = int(input('Cantidad de filas/columnas de la matriz: '))
+
+#A_matrix = np.array([[3,-1,-1],[-1,3,1],[2,1,4]])
+print('\nMATRIZ A:')
+A_matrix = leer_matriz(n,n)
 is_jacobi_operable(A_matrix) # Verifico que la matriz sea estrictamente dominante
 print('La matriz es estrictamente dominante, es posible operar con el algoritmo de Jacobi.')
-B_vector = np.array([1,3,7])
+#B_vector = np.array([1,3,7])
+print('\nVECTOR B:')
+B_vector = leer_vector(n)
 
 is_square(A_matrix) # Verifico que la matriz sea cuadrada
 # Verifico que los vectores sean de tamaños equivalentes
